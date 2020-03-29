@@ -9,8 +9,9 @@ import java.util.concurrent.Executors;
  * 03.07.2016
  */
 public class MainMatrix {
-    private static final int MATRIX_SIZE = 1000;
-    private static final int THREAD_NUMBER = 10;
+    private static final int MATRIX_SIZE = 2000;
+    private static final int THREAD_NUMBER = 8;
+    private static final int NUMBER_OF_PASSES = 15;
 
     private final static ExecutorService executor = Executors.newFixedThreadPool(MainMatrix.THREAD_NUMBER);
 
@@ -20,8 +21,9 @@ public class MainMatrix {
 
         double singleThreadSum = 0.;
         double concurrentThreadSum = 0.;
+
         int count = 1;
-        while (count < 6) {
+        while (count < NUMBER_OF_PASSES + 1) {
             System.out.println("Pass " + count);
             long start = System.currentTimeMillis();
             final int[][] matrixC = MatrixUtil.singleThreadMultiply(matrixA, matrixB);
@@ -42,8 +44,8 @@ public class MainMatrix {
             count++;
         }
         executor.shutdown();
-        out("\nAverage single thread time, sec: %.3f", singleThreadSum / 5.);
-        out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
+        out("\nAverage single thread time, sec: %.3f", singleThreadSum / NUMBER_OF_PASSES);
+        out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / NUMBER_OF_PASSES);
     }
 
     private static void out(String format, double ms) {
