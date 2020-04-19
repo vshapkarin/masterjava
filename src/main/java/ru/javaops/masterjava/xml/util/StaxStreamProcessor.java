@@ -1,5 +1,6 @@
 package ru.javaops.masterjava.xml.util;
 
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -39,8 +40,16 @@ public class StaxStreamProcessor implements AutoCloseable {
         return doUntil(XMLEvent.START_ELEMENT, element) ? reader.getElementText() : null;
     }
 
+    public String getAttributes(String element, String attributeName) throws XMLStreamException {
+        return doUntil(XMLEvent.START_ELEMENT, element) ? getAttribute(attributeName) : null;
+    }
+
     public String getText() throws XMLStreamException {
         return reader.getElementText();
+    }
+
+    public String getAttribute(String attributeName) {
+        return reader.getAttributeValue(null, attributeName);
     }
 
     @Override

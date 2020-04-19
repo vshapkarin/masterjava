@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="http://javaops.ru"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xs2="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://javaops.ru"
            elementFormDefault="qualified" attributeFormDefault="unqualified">
 
@@ -21,6 +22,13 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="Projects">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="Project"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
             </xs:all>
         </xs:complexType>
     </xs:element>
@@ -28,11 +36,16 @@
     <xs:element name="User">
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="xs:string" name="email"/>
                 <xs:element type="xs:string" name="fullName"/>
             </xs:sequence>
+            <xs:attribute name="email" use="required"/>
             <xs:attribute type="flagType" name="flag" use="required"/>
             <xs:attribute type="xs:IDREF" name="city" use="required"/>
+            <xs:attribute name="involvedProjects" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="involvedProjectsList"/>
+                </xs:simpleType>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
 
@@ -53,4 +66,43 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
+
+    <xs:element name="Project">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element type="xs:string" name="name"/>
+                <xs:element type="xs:string" name="description"/>
+                <xs:element name="groups">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="group"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="group">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute type="xs2:ID" name="id" use="required"/>
+                    <xs:attribute type="periodType" name="type" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="periodType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="FINISHED"/>
+            <xs:enumeration value="CURRENT"/>
+            <xs:enumeration value="REGISTERING"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="involvedProjectsList">
+        <xs:list itemType="xs2:IDREF"/>
+    </xs:simpleType>
 </xs:schema>

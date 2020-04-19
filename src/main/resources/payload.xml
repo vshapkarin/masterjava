@@ -1,0 +1,73 @@
+<Payload xmlns="http://javaops.ru"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://javaops.ru payload.xsd">
+    <Users>
+        <User flag="active" city="kiv" email="agr8@gmail.com"
+              involvedProjects="startjava01 topjava01 masterjava01 masterjava03">
+            <fullName>Alex Ovechkin</fullName>
+        </User>
+        <User flag="active" city="spb" email="kuch86@gmail.com"
+              involvedProjects="basejava01 topjava02 masterjava03">
+            <fullName>Nikita Kucherov</fullName>
+        </User>
+        <User flag="active" city="mnsk" email="taras91@gmail.com"
+        involvedProjects="">
+            <fullName>Vladimir Tarasenko</fullName>
+        </User>
+        <User flag="active" city="spb" email="bread72man@gmail.com"
+              involvedProjects="startjava02 topjava03">
+            <fullName>Artemi Panarin</fullName>
+        </User>
+        <User flag="superuser" city="spb" email="admin@javaops.ru"
+              involvedProjects="startjava01 basejava01 topjava02 masterjava03">
+            <fullName>Evgeni Malkin</fullName>
+        </User>
+        <User flag="deleted" city="spb" email="mail@yandex.ru"
+              involvedProjects="topjava01 masterjava01">
+            <fullName>Pavel Bure</fullName>
+        </User>
+    </Users>
+    <Cities>
+        <City id="spb">Санкт-Петербург</City>
+        <City id="kiv">Киев</City>
+        <City id="mnsk">Минск</City>
+    </Cities>
+    <Projects>
+        <Project>
+            <name>startjava</name>
+            <description>Стартовый проект</description>
+            <groups>
+                <group id="startjava01" type="FINISHED">startjava01</group>
+                <group id="startjava02" type="CURRENT">startjava02</group>
+                <group id="startjava03" type="REGISTERING">startjava03</group>
+            </groups>
+        </Project>
+        <Project>
+            <name>basejava</name>
+            <description>Базовый проект</description>
+            <groups>
+                <group id="basejava01" type="FINISHED">basejava01</group>
+                <group id="basejava02" type="CURRENT">basejava02</group>
+                <group id="basejava03" type="REGISTERING">basejava03</group>
+            </groups>
+        </Project>
+        <Project>
+            <name>topjava</name>
+            <description>Топовый проект</description>
+            <groups>
+                <group id="topjava01" type="FINISHED">topjava01</group>
+                <group id="topjava02" type="CURRENT">topjava02</group>
+                <group id="topjava03" type="REGISTERING">topjava03</group>
+            </groups>
+        </Project>
+        <Project>
+            <name>masterjava</name>
+            <description>Мастер проект</description>
+            <groups>
+                <group id="masterjava01" type="FINISHED">masterjava01</group>
+                <group id="masterjava02" type="CURRENT">masterjava02</group>
+                <group id="masterjava03" type="REGISTERING">masterjava03</group>
+            </groups>
+        </Project>
+    </Projects>
+</Payload>
