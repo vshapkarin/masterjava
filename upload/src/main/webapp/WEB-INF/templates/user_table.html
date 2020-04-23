@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Parsed table of users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<h1>Users list</h1>
+<table th:border="1">
+    <tr>
+        <th>NAME</th>
+        <th>EMAIL</th>
+        <th>FLAG</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.value}">Full name</td>
+        <td th:text="${user.email}">name@mail.com</td>
+        <td th:text="${user.flag}">active/inactive/deleted</td>
+    </tr>
+</table>
+</body>
+</html>
