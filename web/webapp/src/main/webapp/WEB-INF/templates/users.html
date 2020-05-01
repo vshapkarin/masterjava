@@ -4,9 +4,7 @@
     <title>Uploaded users</title>
 </head>
 <body>
-<h4><a href="">Upload XML</a></h4>
-<h3>Update success!</h3>
-<h4>Not updated users (because of id or email unique constraint violation):</h4>
+<h3>First 20 users from db</h3>
 <table border="1" cellpadding="8" cellspacing="0">
     <thead>
     <tr>
@@ -16,7 +14,6 @@
     </tr>
     </thead>
     <tbody>
-    <!--/*@thymesVar id="users" type="java.util.List<ru.javaops.masterjava.model.User>"*/-->
     <tr th:each="user : ${users}">
         <td th:text="${user.fullName}"></td>
         <td th:utext="${user.email}"></td>
