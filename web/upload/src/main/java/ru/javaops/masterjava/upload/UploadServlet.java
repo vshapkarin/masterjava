@@ -47,10 +47,12 @@ public class UploadServlet extends HttpServlet {
                 throw new IllegalStateException("Upload file have not been selected");
             }
             try (InputStream is = filePart.getInputStream()) {
-                List<User> users = userProcessor.process(is);
-
                 int chunkSize = Integer.parseInt(req.getParameter("chunkSize"));
-                List<User> notUpdatedUsers = userDao.generateIdsAndBatchInsert(users, chunkSize);
+                List<User> notUpdatedUsers = userProcessor.processAndApplyFunctionInParallel(
+                        is,
+                        chunkSize,
+                        chunkOfUsers -> userDao.generateIdsAndBatchInsert(chunkOfUsers, chunkSize)
+                );
 
                 webContext.setVariable("users", notUpdatedUsers);
                 engine.process("result", webContext, resp.getWriter());
