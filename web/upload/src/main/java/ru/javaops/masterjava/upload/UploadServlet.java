@@ -23,6 +23,7 @@ import static ru.javaops.masterjava.common.web.ThymeleafListener.engine;
 public class UploadServlet extends HttpServlet {
     private static final int CHUNK_SIZE = 2000;
 
+    private final CityProcessor cityProcessor = new CityProcessor();
     private final UserProcessor userProcessor = new UserProcessor();
 
     @Override
@@ -42,6 +43,9 @@ public class UploadServlet extends HttpServlet {
             } else {
                 Part filePart = req.getPart("fileToUpload");
                 try (InputStream is = filePart.getInputStream()) {
+                    is.mark(0);
+                    cityProcessor.process(is);
+                    is.reset();
                     List<UserProcessor.FailedEmails> failed = userProcessor.process(is, chunkSize);
                     log.info("Failed users: " + failed);
                     final WebContext webContext =

@@ -7,8 +7,6 @@ import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.persist.dao.UserDao;
 import ru.javaops.masterjava.persist.model.User;
 import ru.javaops.masterjava.persist.model.UserFlag;
-import ru.javaops.masterjava.xml.schema.ObjectFactory;
-import ru.javaops.masterjava.xml.util.JaxbParser;
 import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
 
 import javax.xml.bind.JAXBException;
@@ -27,8 +25,6 @@ import java.util.concurrent.Future;
 @Slf4j
 public class UserProcessor {
     private static final int NUMBER_THREADS = 4;
-
-    private static final JaxbParser jaxbParser = new JaxbParser(ObjectFactory.class);
     private static UserDao userDao = DBIProvider.getDao(UserDao.class);
 
     private ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
@@ -55,11 +51,13 @@ public class UserProcessor {
         int id = userDao.getSeqAndSkip(chunkSize);
         List<User> chunk = new ArrayList<>(chunkSize);
         val processor = new StaxStreamProcessor(is);
-        val unmarshaller = jaxbParser.createUnmarshaller();
 
         while (processor.doUntil(XMLEvent.START_ELEMENT, "User")) {
-            ru.javaops.masterjava.xml.schema.User xmlUser = unmarshaller.unmarshal(processor.getReader(), ru.javaops.masterjava.xml.schema.User.class);
-            final User user = new User(id++, xmlUser.getValue(), xmlUser.getEmail(), UserFlag.valueOf(xmlUser.getFlag().value()));
+            String flag = processor.getAttribute("flag");
+            String city = processor.getAttribute("city");
+            String email = processor.getAttribute("email");
+            String name = processor.getText();
+            final User user = new User(id++, name, email, UserFlag.valueOf(flag), city);
             chunk.add(user);
             if (chunk.size() == chunkSize) {
                 addChunkFutures(chunkFutures, chunk);
